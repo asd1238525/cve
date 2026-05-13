@@ -1,0 +1,71 @@
+swagger: '2.0'
+info:
+  title: "业务系统API文档（安全测试验证用）"
+  version: "1.0.0"
+  description: |
+    此文档由安全测试人员生成，仅用于验证Swagger任意配置文件加载漏洞。
+    证明目标系统允许通过configUrl参数加载任意外部配置文件，存在被伪造文档钓鱼、污染业务数据的风险。
+paths:
+  /api/login:
+    post:
+      summary: "用户登录接口（测试用）"
+      description: |
+        此为伪造的登录接口，用于证明配置注入漏洞。
+        若攻击者伪造真实业务登录接口文档，可诱导用户输入账号密码，导致信息泄露。
+      parameters:
+        - name: username
+          in: query
+          type: string
+          required: true
+          description: "用户名"
+        - name: password
+          in: query
+          type: string
+          required: true
+          description: "密码"
+      responses:
+        '200':
+          description: "登录成功"
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              token:
+                type: string
+                example: "fake_token_123456"
+              message:
+                type: string
+                example: "登录成功"
+  /api/queryUserInfo:
+    get:
+      summary: "查询用户信息接口（测试用）"
+      description: |
+        此为伪造的用户信息查询接口，用于展示漏洞可伪造任意业务接口。
+      parameters:
+        - name: userId
+          in: query
+          type: string
+          required: true
+      responses:
+        '200':
+          description: "查询成功"
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                example: 200
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1001
+                  username:
+                    type: string
+                    example: "admin"
+                  email:
+                    type: string
+                    example: "admin@test.com"
